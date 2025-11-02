@@ -89,3 +89,57 @@ $ git add .
 $ git commit -m "updated" # updated라는 상세 설명으로 커밋
 
 ```
+
+## 3-3. 로컬 저장소의 다른 커밋으로 이동
+
+```bash
+
+#1. 커밋 확인
+$ git log # 변경 이력 확인
+
+$ git log -p  # 변경 이력과 함께 차이점 표시 (끌 때는 q)
+
+#2. 이전 커밋과의 차이 확인
+$ git diff "커밋아이디"
+
+#3. first commit의 앞 7자리 아이디를 복사 후 checkout명령어로 해당 커밋으로 되돌림
+$ git checkout "커밋아이디"
+
+#4. 다시 최신 커밋으로 돌아가기
+$ git checkout -
+
+```
+
+## 4-1. 원격 저장소에서 로컬 저장소로 커밋 내보내기
+
+```bash
+
+#1. 로컬 저장소에 원격 저장소 주소 설정
+$ git remote add origin "https://github.com/유저아이디/원격저장소이름.git"
+
+#2. push를 이용해 로컬 저장소의 commit 원격 저장소로 내보냄
+$ git push origin main
+
+#3. 원격 저장소 삭제
+$ git remote rm origin
+
+```
+
+## 4-2. 원격 저장소의 커밋 로컬로 받기
+
+```bash
+
+#1. clone으로 원격 저장소 통채로 로컬의 특정 경로에 복제
+$ git clone "https://github.com/유저아이디/원격저장소이름.git"
+
+```
+
+## 4-3. 변경사항 다시 원격 저장소에 내보내기
+
+```bash
+
+$ git add README.txt
+$ git commit -m "third commit"
+$ git push origin main
+
+```
