@@ -143,3 +143,30 @@ $ git commit -m "third commit"
 $ git push origin main
 
 ```
+
+## 5-1. 용어
+
+<details>
+<summary>전반적인 용어</summary>
+<br>
+- Project Source Code(Working Directory안에 존재) > 소스코드가 있는 프로그램 작성 파일로 일반적으로 workspace에 해당하는 디렉토리 안에 작성한다.
+<br>
+<br>
+- Staging Area(=Index Area) > 커밋 할 것들을 담아놓는 임시 공간, 커밋 하나에 포함할 변경 사항을 선택할 수 있기 위함
+<br>
+<br>
+- Local Repo (=지역 저장소, .git directory) > 프로그래머가 프로젝트 소스코드를 개발중인 컴퓨터에 마련하는 지역 저장소
+<br>
+<br>
+- Remote Repo (=github) > 작업중인 컴퓨터가 아닌 원격지에 마련하는 원격 저장소 혹은 공유 저장소로 github나 gitlab이 이에 해당
+<br>
+<br>
+- Git Bash > CLI방식으로 Git을 사용할 수 있는 환경
+<br>
+  - CLI(Command Line Interface) >> 명령어를 입력하는 방식
+<br>
+  - GUI(Graphic User Interface) >> 마우스로 클릭하는 방식
+<br>
+<br>
+
+</details>
