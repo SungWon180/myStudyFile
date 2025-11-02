@@ -168,5 +168,6 @@ $ git push origin main
   - GUI(Graphic User Interface) >> 마우스로 클릭하는 방식
 <br>
 <br>
-
 </details>
+
+## 6-1. Branch
