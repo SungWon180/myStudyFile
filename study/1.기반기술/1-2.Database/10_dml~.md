@@ -169,4 +169,131 @@ ROLLBACK;
 # VARCHAR(n) -> 1 ~ 65535byte -> 가변길이 문자형
 # TEXT -> 1 ~ 65535byte -> N 크기의 TEXT 데이터 값
 
+
+
+/*****************************************************
+
+  4. DDL
+    - DDL(Data Definition Language)는 데이터베이스의 스키마를 정의하거나 수정하는 데 사용되는 SQL의 한 부분
+
+*****************************************************/
+
+-- 스키마 : 테이블의 구조 및 제약조건 전반을 아울러 지칭하는 말
+
+-- 4-1. CREATE
+--      테이블 생성을 위한 구문
+--      IF NOT EXISTS를 적용하면 기존에 존재하는 테이블이라도 에러가 발생하지 않는다.
+
+# 테이블 생성
+/*
+CREATE TABLE [IF NOT EXISTS] 테이블명 (
+  컬럼명1 데이터타입 [제약조건],
+  컬럼명2 데이터타입 [제약조건],
+  ...
+);
+*/
+
+CREATE TABLE IF NOT EXISTS tb1 (
+    pk INT PRIMARY KEY, -- 컬럼 레벨에서  제약조건 추가
+    fk INT,
+    col1 VARCHAR(255),
+    CHECK(col1 IN ('Y', 'N')) -- 테이블 레벨에서 제약조건 추가
+) ENGINE=INNODB;
+
+# 테이블 구조 확인
+DESCRIBE tb1;
+DESC tb1;
+
+# INSERT테스트
+INSERT INTO tb1 VALUES (1, 10, 'Y');
+
+SELECT * FROM tb1;
+
+-- 4-2. AUTO_INCREMENT
+--      INSERT 시 PRIMARY키에 해당하는 컬럼에 자동으로 번호를 발생(중복되지 않게)시켜 저장할 수 있다.
+
+-- 4-3. ALTER
+--      테이블에 추가/변경/수정/삭제하는 모든 것은 ALTER 명령어를 사용해 적용
+
+# 열 추가
+ALTER TABLE tb1
+ADD col2 INT NOT NULL;
+
+# 열 삭제
+ALTER TABLE tb1
+DROP COLUMN col2;
+
+# 열 변경
+ALTER TABLE tb1
+CHANGE COLUMN fk change_fk INT NOT NULL;
+
+# 컬럼 여러개 추가
+ALTER TABLE tb1
+ADD col3 DATE NOT NULL,
+ADD col4 TINYINT NOT NULL;
+
+-- 4-4. DROP
+--      테이블을 삭제하기 위한 구문
+DROP TABLE IF EXISTS tb1;
+
+-- 4-5. TRUNCATE
+--      데이터를 다 삭제할 경우 행마다 하나씩 지워지는 DELETE보다 DROP이후 바로 테이블을 재생성 해주는 TRUNCATE가 훨씬 효율적으로 한번에 테이블을 초기화 시켜준다.
+--      TRUNCATE로 데이터 삭제 시 ROLLBACK 불가
+--      또한 AUTO_INCREMENT 컬럼이 있는 경우 시작 값도 0으로 초기화가 된다.
+
+
+
+/*****************************************************
+
+  5. CONSTRAINTS
+    - CONSTRAINT는 제약 조건으로 테이블에 데이터가 입력되거나 수정될 때의 규칙을 정의
+    - 데이터 무결성을 보장하는데 도움이 된다.
+
+*****************************************************/
+
+-- 5-1. NOT NULL
+--      NULL값을 허용하지 않는 제약 조건
+
+-- 5-2. UNIQUE
+--      중복값 허용하지 않는 제약조건
+
+-- 5-3. PRIMARY KEY
+--      테이블에서 한 행의 정보를 찾기 위해 사용 할 컬럼을 의미
+--      NOT NULL + UNIQUE 제약조건의 의미
+--      한 테이블당 한 개만 설정할 수 있음
+--      컬럼 레벨, 테이블 레벨 둘 다 설정 가능함
+
+-- 5-4. FOREIGN KEY
+--      참조 무결성을 위배하지 않기 위해 사용
+--      참조(REFERENCES)된 다른 테이블에서 제공하는 값만 사용할 수 있음
+--      FOREIGN KEY 제약조건에 의해서 테이블 간의 관계(RELATIONSHIP)가 형성 됨
+--      제공되는 값 외에는 NULL을 사용할 수 있음
+DROP TABLE IF EXISTS user_foreignkey1;
+CREATE TABLE IF NOT EXISTS user_foreignkey1 (
+    user_no INT PRIMARY KEY,
+    user_id VARCHAR(255) NOT NULL,
+    user_pwd VARCHAR(255) NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(3),
+    phone VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    grade_code INT ,
+    FOREIGN KEY (grade_code)
+		REFERENCES user_grade (grade_code)
+) ENGINE=INNODB;
+
+INSERT
+  INTO user_foreignkey1
+(user_no, user_id, user_pwd, user_name, gender, phone, email, grade_code)
+VALUES
+(1, 'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@gmail.com', 10),
+(2, 'user02', 'pass02', '유관순', '여', '010-777-7777', 'yu77@gmail.com', 20);
+
+SELECT * FROM user_foreignkey1;
+
+-- 5-5. DEFAULT
+--      컬럼에 null 대신 기본 값 적용
+--      컬럼 타입이 DATE일 시 current_date만 가능
+--      컬럼 타입이 DATETIME일 시 current_time과 current_timestamp, now() 모두 사용 가능
+
 ```
